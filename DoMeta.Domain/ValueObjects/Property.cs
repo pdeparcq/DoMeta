@@ -8,26 +8,20 @@ namespace DoMeta.Domain.ValueObjects
     {
         public string Name { get; }
         public PropertyType Type { get; }
-        public bool IsReadOnly { get; }
-        public bool IsCollection { get; }
 
-        public Property(string name, PropertyType type, bool isReadOnly = false, bool isCollection = false)
+        public Property(string name, PropertyType type)
         {
             Ensure.That(name).IsNotEmptyOrWhiteSpace();
             Ensure.That(type).IsNotNull();
 
             Name = name;
             Type = type;
-            IsReadOnly = isReadOnly;
-            IsCollection = isCollection;
         }
 
         protected override IEnumerable<object> GetAtomicValues()
         {
             yield return Name;
             yield return Type;
-            yield return IsReadOnly;
-            yield return IsCollection;
         }
     }
 }

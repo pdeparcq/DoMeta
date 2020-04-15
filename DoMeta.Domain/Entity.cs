@@ -24,7 +24,7 @@ namespace DoMeta.Domain
                 AggregateRootId = Id,
                 BoundedContextId = boundedContextId,
                 Name = name,
-                Identity = identity ?? new Property("Id", new SystemType(typeof(Guid)))
+                Identity = identity ?? new Property("Id", new SystemPropertyType(typeof(Guid)))
             });
         }
 
