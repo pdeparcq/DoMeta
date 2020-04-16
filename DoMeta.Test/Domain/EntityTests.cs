@@ -49,6 +49,27 @@ namespace DoMeta.Test.Domain
         }
 
         [Test]
+        public void CanAddRelationsToEntity()
+        {
+            var entity = new Entity(Guid.NewGuid(), "Touchpoint");
+
+            entity.AddRelation("Questions", Guid.NewGuid(), 0);
+            entity.AddRelation("Languages", Guid.NewGuid(), 1, 10);
+
+            Assert.AreEqual(2, entity.Relations.Count);
+        }
+
+        [Test]
+        public void CanNotAddRelationsWithSameName()
+        {
+            var entity = new Entity(Guid.NewGuid(), "Touchpoint");
+
+            entity.AddRelation("Questions", Guid.NewGuid(), 0);
+
+            Assert.Throws<ArgumentException>(() => entity.AddRelation("Questions", Guid.NewGuid(), 0));
+        }
+
+        [Test]
         public void CanAddPropertiesToEntity()
         {
             var entity = new Entity(Guid.NewGuid(), "Touchpoint");

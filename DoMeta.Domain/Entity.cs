@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DoMeta.Domain.Entities;
 using DoMeta.Domain.Events;
 using DoMeta.Domain.ValueObjects;
 using EnsureThat;
@@ -11,6 +12,7 @@ namespace DoMeta.Domain
     public class Entity : MetaType
     {
         private readonly List<DomainEvent> _domainEvents = new List<DomainEvent>();
+        private readonly List<EntityRelation> _relations = new List<EntityRelation>();
 
         public Entity(Guid boundedContextId, string name, Property identity = null) 
             : base(boundedContextId, name)
@@ -26,6 +28,7 @@ namespace DoMeta.Domain
 
         public Property Identity { get; private set; }
         public IReadOnlyCollection<DomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+        public IReadOnlyCollection<EntityRelation> Relations => _relations.AsReadOnly();
         public bool IsAggregateRoot => DomainEvents.Any();
 
         public void AddDomainEvent(string name)
@@ -39,6 +42,21 @@ namespace DoMeta.Domain
             {
                 AggregateRootId = Id,
                 Name = name
+            });
+        }
+
+        public void AddRelation(string name, Guid metaTypeId, int minimum, int? maximum = null)
+        {
+            if(Relations.Any(r => r.Name == name))
+                throw new ArgumentException("Relation with same name already exists for entity", nameof(name));
+
+            AddAndApplyEvent(new EntityRelationAdded
+            {
+                AggregateRootId = Id,
+                Name = name,
+                MetaTypeId = metaTypeId,
+                Minimum = minimum,
+                Maximum = maximum
             });
         }
 
@@ -78,6 +96,11 @@ namespace DoMeta.Domain
             var domainEvent = _domainEvents.Single(de => de.Id == @event.DomainEventId);
 
             domainEvent.AddProperty(@event.Property);
+        }
+
+        public void Apply(EntityRelationAdded @event)
+        {
+            _relations.Add(new EntityRelation(@event.Name, @event.MetaTypeId, @event.Minimum, @event.Maximum));
         }
     }
 }
