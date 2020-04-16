@@ -3,7 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using DoMeta.Application;
 using DoMeta.Application.Commands;
+using DoMeta.Application.Queries;
 using DoMeta.Infrastructure;
+using Kledex;
 using Kledex.Extensions;
 using Kledex.Store.EF.InMemory.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -21,17 +23,25 @@ namespace DoMeta.Test.Application
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddKledex(typeof(RegisterEntity)).AddInMemoryStore();
             serviceCollection.AddDbContext<MetaDbContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
-            serviceCollection.AddSingleton<EntityService>();
-            serviceCollection.AddSingleton<EntityQueryService>();
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
-            var service = serviceProvider.GetService<EntityService>();
-            var queryService = serviceProvider.GetService<EntityQueryService>();
+            var dispatcher = serviceProvider.GetService<IDispatcher>();
             var boundedContextId = Guid.NewGuid();
 
-            await service.Register(boundedContextId, "Touchpoint");
-            var entity = (await queryService.GetEntities(boundedContextId)).First();
+            // Command
+            await dispatcher.SendAsync(new RegisterEntity
+            {
+                BoundedContextId = boundedContextId,
+                Name = "Touchpoint"
+            });
+
+            // Query
+            var entity = (await dispatcher.GetResultAsync(new GetEntities
+            {
+                BoundedContextId = boundedContextId
+            })).First();
             
+            // Verify
             Assert.IsNotNull(entity);
             Assert.AreEqual("Touchpoint", entity.Name);
         }
