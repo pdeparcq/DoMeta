@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoMeta.Test", "DoMeta.Test\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoMeta.Application", "DoMeta.Application\DoMeta.Application.csproj", "{7836FB56-F737-47EF-BE16-8D1A500ABF88}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoMeta.Infrastructure", "DoMeta.Infrastructure\DoMeta.Infrastructure.csproj", "{26FF864E-5185-42F9-802D-34E47A3BD60D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{7836FB56-F737-47EF-BE16-8D1A500ABF88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7836FB56-F737-47EF-BE16-8D1A500ABF88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7836FB56-F737-47EF-BE16-8D1A500ABF88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26FF864E-5185-42F9-802D-34E47A3BD60D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26FF864E-5185-42F9-802D-34E47A3BD60D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26FF864E-5185-42F9-802D-34E47A3BD60D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26FF864E-5185-42F9-802D-34E47A3BD60D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

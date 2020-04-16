@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DoMeta.Application\DoMeta.Application.csproj" />
     <ProjectReference Include="..\DoMeta.Domain\DoMeta.Domain.csproj" />
+    <ProjectReference Include="..\DoMeta.Infrastructure\DoMeta.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
