@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using EnsureThat;
-using Kledex.Domain;
 
 namespace DoMeta.Domain.ValueObjects
 {
-    public abstract class PropertyType : ValueObject
+    public abstract class PropertyType : Kledex.Domain.ValueObject
     {
     }
 
@@ -29,7 +28,7 @@ namespace DoMeta.Domain.ValueObjects
     public class MetaPropertyType : PropertyType
     {
         public Guid TypeId { get; }
-
+        
         public MetaPropertyType(Guid typeId)
         {
             Ensure.That(typeId).IsNotDefault();

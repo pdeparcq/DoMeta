@@ -4,21 +4,17 @@ using System.Linq;
 using DoMeta.Domain.Events;
 using DoMeta.Domain.ValueObjects;
 using EnsureThat;
-using Kledex.Domain;
 using DomainEvent = DoMeta.Domain.Entities.DomainEvent;
 
 namespace DoMeta.Domain
 {
-    public class Entity : AggregateRoot
+    public class Entity : MetaType
     {
         private readonly List<DomainEvent> _domainEvents = new List<DomainEvent>();
-        private readonly List<Property> _properties = new List<Property>();
 
-        public Entity(Guid boundedContextId, string name, Property identity = null)
+        public Entity(Guid boundedContextId, string name, Property identity = null) 
+            : base(boundedContextId, name)
         {
-            Ensure.That(boundedContextId).IsNotDefault();
-            Ensure.That(name).IsNotEmptyOrWhiteSpace();
-            
             AddAndApplyEvent(new EntityRegistered
             {
                 AggregateRootId = Id,
@@ -28,11 +24,8 @@ namespace DoMeta.Domain
             });
         }
 
-        public Guid BoundedContextId { get; private set; }
-        public string Name { get; private set; }
         public Property Identity { get; private set; }
         public IReadOnlyCollection<DomainEvent> DomainEvents => _domainEvents.AsReadOnly();
-        public IReadOnlyCollection<Property> Properties => _properties.AsReadOnly();
         public bool IsAggregateRoot => DomainEvents.Any();
 
         public void AddDomainEvent(string name)
@@ -52,20 +45,6 @@ namespace DoMeta.Domain
         public DomainEvent GetDomainEvent(string name)
         {
             return _domainEvents.Single(de => de.Name == name);
-        }
-
-        public void AddProperty(Property property)
-        {
-            Ensure.That(property).IsNotNull();
-
-            if(Properties.Any(p => p.Name == property.Name))
-                throw new ArgumentException("Property with same name already exists for entity");
-
-            AddAndApplyEvent(new EntityPropertyAdded
-            {
-                AggregateRootId = Id,
-                Property = property
-            });
         }
 
         public void AddPropertyToDomainEvent(Guid domainEventId, Property property)
@@ -89,11 +68,6 @@ namespace DoMeta.Domain
             Identity = @event.Identity;
         }
 
-        public void Apply(EntityPropertyAdded @event)
-        {
-            _properties.Add(@event.Property);
-        }
-
         public void Apply(EntityDomainEventAdded @event)
         {
             _domainEvents.Add(new DomainEvent(@event.Name));
@@ -101,14 +75,9 @@ namespace DoMeta.Domain
 
         public void Apply(EntityDomainEventPropertyAdded @event)
         {
-            var domainEvent = GetDomainEvent(@event.DomainEventId);
+            var domainEvent = _domainEvents.Single(de => de.Id == @event.DomainEventId);
 
             domainEvent.AddProperty(@event.Property);
-        }
-
-        private DomainEvent GetDomainEvent(Guid id)
-        {
-            return _domainEvents.Single(de => de.Id == id);
         }
     }
 }

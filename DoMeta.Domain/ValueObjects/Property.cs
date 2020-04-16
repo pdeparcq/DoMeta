@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using EnsureThat;
-using Kledex.Domain;
 
 namespace DoMeta.Domain.ValueObjects
 {
-    public class Property : ValueObject
+    public class Property : Kledex.Domain.ValueObject
     {
         public string Name { get; }
         public PropertyType Type { get; }

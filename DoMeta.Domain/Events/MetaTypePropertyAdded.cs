@@ -2,7 +2,7 @@
 
 namespace DoMeta.Domain.Events
 {
-    public class EntityPropertyAdded : Kledex.Domain.DomainEvent
+    public class MetaTypePropertyAdded : Kledex.Domain.DomainEvent
     {
         public Property Property { get; set; }
     }
