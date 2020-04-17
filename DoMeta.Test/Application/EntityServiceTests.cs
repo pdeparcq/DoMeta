@@ -1,49 +1,35 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using DoMeta.Application;
 using DoMeta.Application.Commands;
 using DoMeta.Application.Queries;
-using DoMeta.Infrastructure;
-using Kledex;
-using Kledex.Extensions;
-using Kledex.Store.EF.InMemory.Extensions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using DoMeta.Domain;
 using NUnit.Framework;
 
 namespace DoMeta.Test.Application
 {
     [TestFixture]
-    public class EntityServiceTests
+    public class EntityServiceTests : IntegrationTestBase
     {
         [Test]
         public async Task CanRegisterEntity()
         {
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddKledex(typeof(RegisterEntity)).AddInMemoryStore();
-            serviceCollection.AddDbContext<MetaDbContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
-            var serviceProvider = serviceCollection.BuildServiceProvider();
-
-            var dispatcher = serviceProvider.GetService<IDispatcher>();
-            var boundedContextId = Guid.NewGuid();
-
             // Command
-            await dispatcher.SendAsync(new RegisterEntity
+            var entity = await Dispatcher.SendAsync<Entity>(new RegisterEntity
             {
-                BoundedContextId = boundedContextId,
+                BoundedContextId = Guid.NewGuid(),
                 Name = "Touchpoint"
             });
 
             // Query
-            var entity = (await dispatcher.GetResultAsync(new GetEntities
+            var entityData = (await Dispatcher.GetResultAsync(new GetEntities
             {
-                BoundedContextId = boundedContextId
+                BoundedContextId = entity.BoundedContextId
             })).First();
             
             // Verify
-            Assert.IsNotNull(entity);
-            Assert.AreEqual("Touchpoint", entity.Name);
+            Assert.IsNotNull(entityData);
+            Assert.AreEqual(entity.Name, entityData.Name);
         }
     }
 }
