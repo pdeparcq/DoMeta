@@ -22,9 +22,9 @@ namespace DoMeta.Application.Queries
         public async Task<IQueryable<Entity>> HandleAsync(GetEntities query)
         {
             return await Task.FromResult(_db.Entities
-                .Include(e => e.Properties)
-                .Include(e => e.Identity)
-                .Include(e => e.Relations)
+                .Include(e => e.Properties).ThenInclude(p => p.MetaType)
+                .Include(e => e.Identity).ThenInclude(p => p.MetaType)
+                .Include(e => e.Relations).ThenInclude(r => r.MetaType)
                 .Where(e => e.BoundedContextId == query.BoundedContextId)
             );
         }

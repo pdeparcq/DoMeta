@@ -42,6 +42,20 @@ namespace DoMeta.Api.Controllers
             });
         }
 
+        [HttpPost]
+        [Route("{id}/relations")]
+        public async Task AddRelation([FromRoute] Guid id, [FromBody] AddRelationToEntityModel model)
+        {
+            await _dispatcher.SendAsync(new AddRelationToEntity()
+            {
+                AggregateRootId = id,
+                Name = model.Name,
+                MetaTypeId = model.MetaTypeId,
+                Minimum = model.Minimum,
+                Maximum = model.Maximum
+            });
+        }
+
         [HttpGet]
         [Route("{boundedContextId}")]
         public async Task<IEnumerable<EntityModel>> GetAll([FromRoute] Guid boundedContextId)
@@ -61,7 +75,22 @@ namespace DoMeta.Api.Controllers
                 {
                     Name = p.Name,
                     SystemType = p.SystemType,
-                    MetaTypeId = p.MetaTypeId
+                    MetaType = p.MetaType != null ? new MetaTypInfoModel
+                    {
+                        Id = p.MetaType.MetaTypeId,
+                        Name = p.MetaType.Name
+                    } : null
+                }).ToList(),
+                Relations = e.Relations.Select(r => new EntityRelationModel()
+                {
+                    Name = r.Name,
+                    MetaType = new MetaTypInfoModel
+                    {
+                        Id = r.MetaType.MetaTypeId,
+                        Name = r.MetaType.Name
+                    },
+                    Minimum = r.Minimum,
+                    Maximum = r.Maximum
                 }).ToList()
             });
         }

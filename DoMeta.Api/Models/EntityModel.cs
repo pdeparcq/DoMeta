@@ -10,5 +10,6 @@ namespace DoMeta.Api.Models
         public string Name { get; set; }
         public string IdentityPropertyName { get; set; }
         public List<PropertyModel> Properties { get; set; }
+        public List<EntityRelationModel> Relations { get; set; }
     }
 }

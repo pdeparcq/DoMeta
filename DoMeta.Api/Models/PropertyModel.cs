@@ -6,6 +6,6 @@ namespace DoMeta.Api.Models
     {
         public string Name { get; set; }
         public string SystemType { get; set; }
-        public Guid? MetaTypeId { get; set; }
+        public MetaTypInfoModel MetaType { get; set; }
     }
 }
