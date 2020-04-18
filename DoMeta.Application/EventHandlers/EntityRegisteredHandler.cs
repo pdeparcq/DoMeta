@@ -20,10 +20,10 @@ namespace DoMeta.Application.EventHandlers
 
         public async Task HandleAsync(EntityRegistered @event)
         {
-            _db.Entities.Add(new EntityData
+            _db.Entities.Add(new Entity
             {
                 BoundedContextId = @event.BoundedContextId,
-                Id = @event.Id,
+                MetaTypeId = @event.AggregateRootId,
                 Name = @event.Name
             });
 

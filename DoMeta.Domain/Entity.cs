@@ -14,6 +14,8 @@ namespace DoMeta.Domain
         private readonly List<DomainEvent> _domainEvents = new List<DomainEvent>();
         private readonly List<EntityRelation> _relations = new List<EntityRelation>();
 
+        public Entity() { }
+
         public Entity(Guid boundedContextId, string name, Property identity = null) 
             : base(boundedContextId, name)
         {
@@ -22,7 +24,7 @@ namespace DoMeta.Domain
                 AggregateRootId = Id,
                 BoundedContextId = boundedContextId,
                 Name = name,
-                Identity = identity ?? new Property("Id", new SystemPropertyType(typeof(Guid)))
+                Identity = identity ?? new Property("Id", typeof(Guid))
             });
         }
 

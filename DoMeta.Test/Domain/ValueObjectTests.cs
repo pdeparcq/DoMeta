@@ -26,8 +26,8 @@ namespace DoMeta.Test.Domain
         {
             var value = new ValueObject(Guid.NewGuid(), "Address");
 
-            value.AddProperty(new Property("Street", new SystemPropertyType(typeof(string))));
-            value.AddProperty(new Property("ZipCode", new SystemPropertyType(typeof(int))));
+            value.AddProperty(new Property("Street", typeof(string)));
+            value.AddProperty(new Property("ZipCode", typeof(string)));
 
             Assert.AreEqual(2, value.Properties.Count);
         }

@@ -19,7 +19,7 @@ namespace DoMeta.Test.Domain
             Assert.AreNotEqual(Guid.Empty, entity.Id);
             Assert.AreEqual(boundedContextId, entity.BoundedContextId);
             Assert.AreEqual("Id", entity.Identity.Name);
-            Assert.AreEqual(new SystemPropertyType(typeof(Guid)), entity.Identity.Type);
+            Assert.AreEqual(new PropertyType(typeof(Guid)), entity.Identity.Type);
             Assert.IsEmpty(entity.DomainEvents);
             Assert.IsEmpty(entity.Properties);
             Assert.False(entity.IsAggregateRoot);
@@ -73,8 +73,8 @@ namespace DoMeta.Test.Domain
         {
             var entity = new Entity(Guid.NewGuid(), "Touchpoint");
 
-            entity.AddProperty(new Property("Name", new SystemPropertyType(typeof(string))));
-            entity.AddProperty(new Property("Description", new SystemPropertyType(typeof(string))));
+            entity.AddProperty(new Property("Name", typeof(string)));
+            entity.AddProperty(new Property("Description", typeof(string)));
 
             Assert.AreEqual(2, entity.Properties.Count);
         }
@@ -85,7 +85,7 @@ namespace DoMeta.Test.Domain
             var entity = new Entity(Guid.NewGuid(), "Touchpoint");
 
             entity.AddDomainEvent("TouchpointCreated");
-            entity.AddPropertyToDomainEvent(entity.GetDomainEvent("TouchpointCreated").Id, new Property("Name", new SystemPropertyType(typeof(string))));
+            entity.AddPropertyToDomainEvent(entity.GetDomainEvent("TouchpointCreated").Id, new Property("Name", typeof(string)));
 
             Assert.IsNotEmpty(entity.DomainEvents);
             Assert.IsNotEmpty(entity.DomainEvents.First().Properties);

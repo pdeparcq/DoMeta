@@ -5,7 +5,7 @@ using Kledex.Queries;
 
 namespace DoMeta.Application.Queries
 {
-    public class GetEntities : IQuery<IQueryable<EntityData>>
+    public class GetEntities : IQuery<IQueryable<Entity>>
     {
         public Guid BoundedContextId { get; set; }
     }

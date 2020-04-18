@@ -10,13 +10,13 @@ namespace DoMeta.Test.Domain
         [Test]
         public void CanCreateAndCompareProperties()
         {
-            var property1 = new Property("Name", new SystemPropertyType(typeof(string)));
-            var property2 = new Property("Name", new SystemPropertyType(typeof(string)));
-            var property3 = new Property("Description", new SystemPropertyType(typeof(string)));
-            var property4 = new Property("Settings", new MetaPropertyType(Guid.NewGuid()));
+            var property1 = new Property("Name", typeof(string));
+            var property2 = new Property("Name", typeof(string));
+            var property3 = new Property("Description", typeof(string));
+            var property4 = new Property("Settings", Guid.NewGuid());
 
             Assert.AreEqual("Name", property1.Name);
-            Assert.AreEqual(new SystemPropertyType(typeof(string)), property1.Type);
+            Assert.AreEqual(new PropertyType(typeof(string)), property1.Type);
             Assert.AreEqual(property1, property2);
             Assert.AreNotEqual(property1, property3);
             Assert.AreNotEqual(property1, property4);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EnsureThat;
 
 namespace DoMeta.Domain.ValueObjects
@@ -8,13 +9,22 @@ namespace DoMeta.Domain.ValueObjects
         public string Name { get; }
         public PropertyType Type { get; }
 
-        public Property(string name, PropertyType type)
+        public Property() { }
+
+        public Property(string name, Type systemType)
         {
             Ensure.That(name).IsNotEmptyOrWhiteSpace();
-            Ensure.That(type).IsNotNull();
 
             Name = name;
-            Type = type;
+            Type = new PropertyType(systemType);
+        }
+
+        public Property(string name, Guid metaTypeId)
+        {
+            Ensure.That(name).IsNotEmptyOrWhiteSpace();
+
+            Name = name;
+            Type = new PropertyType(metaTypeId);
         }
 
         protected override IEnumerable<object> GetAtomicValues()

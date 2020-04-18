@@ -10,6 +10,8 @@ namespace DoMeta.Domain.Entities
     {
         private readonly List<Property> _properties = new List<Property>();
 
+        public DomainEvent() { }
+
         public DomainEvent(string name)
         {
             Ensure.That(name).IsNotEmptyOrWhiteSpace();

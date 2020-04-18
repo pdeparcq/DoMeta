@@ -4,41 +4,31 @@ using EnsureThat;
 
 namespace DoMeta.Domain.ValueObjects
 {
-    public abstract class PropertyType : Kledex.Domain.ValueObject
+    public class PropertyType : Kledex.Domain.ValueObject
     {
-    }
+        public PropertyType() { }
 
-    public class SystemPropertyType : PropertyType
-    {
-        public System.Type Type { get; }
-
-        public SystemPropertyType(System.Type type)
+        public PropertyType(System.Type systemType)
         {
-            Ensure.That(type).IsNotNull();
+            Ensure.That(systemType).IsNotNull();
 
-            Type = type;
+            SystemType = systemType;
         }
+
+        public PropertyType(Guid metaTypeId)
+        {
+            Ensure.That(metaTypeId).IsNotDefault();
+
+            MetaTypeId = metaTypeId;
+        }
+
+        public Type SystemType { get; }
+        public Guid? MetaTypeId { get; }
 
         protected override IEnumerable<object> GetAtomicValues()
         {
-            yield return Type;
-        }
-    }
-
-    public class MetaPropertyType : PropertyType
-    {
-        public Guid TypeId { get; }
-        
-        public MetaPropertyType(Guid typeId)
-        {
-            Ensure.That(typeId).IsNotDefault();
-
-            TypeId = typeId;
-        }
-
-        protected override IEnumerable<object> GetAtomicValues()
-        {
-            yield return TypeId;
+            yield return SystemType;
+            yield return MetaTypeId;
         }
     }
 }

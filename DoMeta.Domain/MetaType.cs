@@ -12,6 +12,8 @@ namespace DoMeta.Domain
     {
         private readonly List<Property> _properties = new List<Property>();
 
+        protected MetaType() { }
+
         protected MetaType(Guid boundedContextId, string name)
         {
             Ensure.That(boundedContextId).IsNotDefault();

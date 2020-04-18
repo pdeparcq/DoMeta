@@ -5,6 +5,8 @@ namespace DoMeta.Domain
 {
     public class ValueObject : MetaType
     {
+        public ValueObject() { }
+
         public ValueObject(Guid boundedContextId, string name) : base(boundedContextId, name)
         {
             AddAndApplyEvent(new ValueObjectRegistered

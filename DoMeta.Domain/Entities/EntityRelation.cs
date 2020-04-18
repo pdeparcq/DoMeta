@@ -5,6 +5,8 @@ namespace DoMeta.Domain.Entities
 {
     public class EntityRelation : Kledex.Domain.Entity
     {
+        public EntityRelation() { }
+
         public EntityRelation(string name, Guid metaTypeId, int minimum, int? maximum = null)
         {
             Ensure.That(name).IsNotEmptyOrWhiteSpace();

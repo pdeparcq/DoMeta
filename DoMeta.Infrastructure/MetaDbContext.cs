@@ -9,11 +9,26 @@ namespace DoMeta.Infrastructure
         {
         }
 
-        public DbSet<EntityData> Entities { get; set; }
+        public DbSet<MetaType> MetaTypes { get; set; }
+        public DbSet<Entity> Entities { get; set; }
+        public DbSet<ValueObject> ValueObjects { get; set; }
+        public DbSet<Property> Properties { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<EntityData>();
+            modelBuilder.Entity<MetaType>()
+                .HasMany(t => t.Properties)
+                .WithOne(p => p.Parent)
+                .HasForeignKey(p => p.ParentId)
+                .IsRequired();
+
+            modelBuilder.Entity<Property>()
+                .HasKey(p => new {p.ParentId, p.Name});
+
+            modelBuilder.Entity<Property>()
+                .HasOne(p => p.MetaType)
+                .WithMany()
+                .HasForeignKey(p => p.MetaTypeId);
         }
     }
 }

@@ -4,10 +4,11 @@ using DoMeta.Infrastructure;
 using DoMeta.Infrastructure.Entities;
 using EnsureThat;
 using Kledex.Queries;
+using Microsoft.EntityFrameworkCore;
 
 namespace DoMeta.Application.Queries
 {
-    public class GetEntitiesHandler : IQueryHandlerAsync<GetEntities, IQueryable<EntityData>>
+    public class GetEntitiesHandler : IQueryHandlerAsync<GetEntities, IQueryable<Entity>>
     {
         private readonly MetaDbContext _db;
 
@@ -18,9 +19,9 @@ namespace DoMeta.Application.Queries
             _db = db;
         }
 
-        public async Task<IQueryable<EntityData>> HandleAsync(GetEntities query)
+        public async Task<IQueryable<Entity>> HandleAsync(GetEntities query)
         {
-            return await Task.FromResult(_db.Entities.Where(e => e.BoundedContextId == query.BoundedContextId));
+            return await Task.FromResult(_db.Entities.Include(e => e.Properties).Where(e => e.BoundedContextId == query.BoundedContextId));
         }
     }
 }
