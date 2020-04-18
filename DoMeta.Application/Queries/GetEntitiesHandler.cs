@@ -21,7 +21,12 @@ namespace DoMeta.Application.Queries
 
         public async Task<IQueryable<Entity>> HandleAsync(GetEntities query)
         {
-            return await Task.FromResult(_db.Entities.Include(e => e.Properties).Where(e => e.BoundedContextId == query.BoundedContextId));
+            return await Task.FromResult(_db.Entities
+                .Include(e => e.Properties)
+                .Include(e => e.Identity)
+                .Include(e => e.Relations)
+                .Where(e => e.BoundedContextId == query.BoundedContextId)
+            );
         }
     }
 }

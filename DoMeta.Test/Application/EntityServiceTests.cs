@@ -16,36 +16,50 @@ namespace DoMeta.Test.Application
         public async Task CanRegisterEntity()
         {
             // Commands
-            var entity = await Dispatcher.SendAsync<Entity>(new RegisterEntity
+            var touchpoint = await Dispatcher.SendAsync<Entity>(new RegisterEntity
             {
                 BoundedContextId = Guid.NewGuid(),
                 Name = "Touchpoint"
             });
 
-            entity = await Dispatcher.SendAsync<Entity>(new AddPropertyToEntity()
+            var participant = await Dispatcher.SendAsync<Entity>(new RegisterEntity
             {
-                AggregateRootId = entity.Id,
+                BoundedContextId = touchpoint.BoundedContextId,
+                Name = "Participant"
+            });
+
+            touchpoint = await Dispatcher.SendAsync<Entity>(new AddPropertyToEntity()
+            {
+                AggregateRootId = touchpoint.Id,
                 Property = new Property("Name", typeof(string))
             });
 
-            entity = await Dispatcher.SendAsync<Entity>(new AddPropertyToEntity()
+            touchpoint = await Dispatcher.SendAsync<Entity>(new AddRelationToEntity()
             {
-                AggregateRootId = entity.Id,
-                Property = new Property("Parent", entity.Id)
+                AggregateRootId = touchpoint.Id,
+                Name = "Participants",
+                MetaTypeId = participant.Id,
+                Minimum = 0
             });
 
             // Query
-            var entityData = (await Dispatcher.GetResultAsync(new GetEntities
+            var touchpointData = (await Dispatcher.GetResultAsync(new GetEntities
             {
-                BoundedContextId = entity.BoundedContextId
+                BoundedContextId = touchpoint.BoundedContextId
             })).First();
             
             // Verify
-            Assert.IsNotNull(entityData);
-            Assert.AreEqual(entity.BoundedContextId, entityData.BoundedContextId);
-            Assert.AreEqual(entity.Id, entityData.MetaTypeId);
-            Assert.AreEqual(entity.Name, entityData.Name);
-            Assert.IsNotEmpty(entityData.Properties);
+            Assert.IsNotNull(touchpointData);
+            Assert.AreEqual(touchpoint.BoundedContextId, touchpointData.BoundedContextId);
+            Assert.AreEqual(touchpoint.Id, touchpointData.MetaTypeId);
+            Assert.AreEqual(touchpoint.Name, touchpointData.Name);
+            Assert.IsNotNull(touchpointData.Identity);
+            Assert.AreEqual("Id", touchpointData.Identity.Name);
+            Assert.AreEqual("System.Guid", touchpointData.Identity.SystemType);
+            Assert.IsNotEmpty(touchpointData.Properties);
+            Assert.AreEqual("Name", touchpointData.Properties.Last().Name);
+            Assert.IsNotEmpty(touchpointData.Relations);
+            Assert.AreEqual("Participants", touchpointData.Relations.First().Name);
         }
     }
 }

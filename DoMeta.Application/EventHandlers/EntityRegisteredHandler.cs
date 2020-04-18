@@ -24,7 +24,14 @@ namespace DoMeta.Application.EventHandlers
             {
                 BoundedContextId = @event.BoundedContextId,
                 MetaTypeId = @event.AggregateRootId,
-                Name = @event.Name
+                Name = @event.Name,
+                Identity = new Property
+                {
+                    ParentId = @event.AggregateRootId,
+                    Name = @event.Identity.Name,
+                    MetaTypeId = @event.Identity.Type.MetaTypeId,
+                    SystemType = @event.Identity.Type.SystemType?.FullName
+                }
             });
 
             _db.SaveChanges();
