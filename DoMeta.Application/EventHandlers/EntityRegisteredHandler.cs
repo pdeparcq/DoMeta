@@ -20,19 +20,24 @@ namespace DoMeta.Application.EventHandlers
 
         public async Task HandleAsync(EntityRegistered @event)
         {
-            _db.Entities.Add(new Entity
+            var entity = _db.Entities.Add(new Entity
             {
                 BoundedContextId = @event.BoundedContextId,
                 MetaTypeId = @event.AggregateRootId,
-                Name = @event.Name,
-                Identity = new Property
-                {
-                    ParentId = @event.AggregateRootId,
-                    Name = @event.Identity.Name,
-                    MetaTypeId = @event.Identity.Type.MetaTypeId,
-                    SystemType = @event.Identity.Type.SystemType?.FullName
-                }
-            });
+                Name = @event.Name
+            }).Entity;
+
+            var property = _db.Properties.Add(new Property
+            {
+                ParentId = @event.AggregateRootId,
+                Name = @event.Identity.Name,
+                MetaTypeId = @event.Identity.Type.MetaTypeId,
+                SystemType = @event.Identity.Type.SystemType?.FullName
+            }).Entity;
+
+            _db.SaveChanges();
+
+            entity.Identity = property;
 
             _db.SaveChanges();
 

@@ -1,5 +1,13 @@
+using DoMeta.Application.Commands;
+using DoMeta.Infrastructure;
+using Kledex.Extensions;
+using Kledex.Store.EF.Extensions;
+using Kledex.Store.EF.SqlServer.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,16 +29,26 @@ namespace DoMeta.Api
         {
             services.AddControllers();
 
-            services.AddMvc();
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DoMeta API", Version = "v1" });
             });
+
+            // Configure db context for queries
+            services.AddDbContext<MetaDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("MetaDb")));
+
+            // Configure Kledex and db context for commands
+            services.AddKledex(typeof(RegisterEntity)).AddSqlServerStore(options =>
+            {
+                options.ConnectionString = Configuration.GetConnectionString("MetaDomainDb");
+            });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MetaDbContext metaDbContext)
         {
             if (env.IsDevelopment())
             {
@@ -43,6 +61,12 @@ namespace DoMeta.Api
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "DoMeta API V1");
             });
+
+            // Ensure that query db is created
+            metaDbContext.Database.EnsureCreated();
+
+            // Use Kledex and ensure that domain db is created
+            app.UseKledex().EnsureDomainDbCreated();
 
             app.UseHttpsRedirection();
 

@@ -21,6 +21,7 @@ namespace DoMeta.Infrastructure
                 .HasMany(t => t.Properties)
                 .WithOne(p => p.Parent)
                 .HasForeignKey(p => p.ParentId)
+                .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
 
             modelBuilder.Entity<Property>()
@@ -42,6 +43,7 @@ namespace DoMeta.Infrastructure
                 .HasMany(e => e.Relations)
                 .WithOne(r => r.Parent)
                 .HasForeignKey(r => r.ParentId)
+                .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
         }
     }
