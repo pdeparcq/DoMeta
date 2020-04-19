@@ -20,6 +20,17 @@ namespace DoMeta.Api.Models
             };
         }
 
+        public static ValueObjectModel ToValueObjectModel(this ValueObject v)
+        {
+            return new ValueObjectModel()
+            {
+                BoundedContextId = v.BoundedContextId,
+                Id = v.MetaTypeId,
+                Name = v.Name,
+                Properties = v.Properties.Select(ToPropertyModel).ToList()
+            };
+        }
+
         public static DomainEventModel ToDomainEventModel(this DomainEvent de)
         {
             return new DomainEventModel
