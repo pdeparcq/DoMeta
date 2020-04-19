@@ -32,6 +32,17 @@ namespace DoMeta.Api.Controllers
             });
         }
 
+        [HttpPost]
+        [Route("{id}/events")]
+        public async Task AddDomainEvent([FromRoute] Guid id, [FromBody] AddDomainEventToAggregateModel model)
+        {
+            await _dispatcher.SendAsync(new AddDomainEventToAggregate()
+            {
+                AggregateRootId = id,
+                Name = model.Name
+            });
+        }
+
         [HttpGet]
         [Route("")]
         public async Task<IEnumerable<EntityModel>> GetAll([FromRoute] Guid boundedContextId)
