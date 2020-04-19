@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DoMeta.Api.Models;
+using DoMeta.Api.Models.Command;
+using DoMeta.Api.Models.Query;
 using DoMeta.Application.Commands;
 using DoMeta.Application.Queries;
 using DoMeta.Domain.ValueObjects;

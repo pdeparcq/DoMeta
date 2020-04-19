@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace DoMeta.Api.Models
+﻿namespace DoMeta.Api.Models.Query
 {
-    public class AddRelationToEntityModel
+    public class EntityRelationModel
     {
         public string Name { get; set; }
-        public Guid MetaTypeId { get; set; }
+        public MetaTypInfoModel MetaType { get; set; }
         public int Minimum { get; set; }
         public int? Maximum { get; set; }
     }

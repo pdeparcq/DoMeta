@@ -1,4 +1,4 @@
-﻿namespace DoMeta.Api.Models
+﻿namespace DoMeta.Api.Models.Command
 {
     public class RegisterEntityModel
     {

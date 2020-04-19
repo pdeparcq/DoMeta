@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using DoMeta.Api.Models;
+using DoMeta.Api.Models.Query;
 using DoMeta.Infrastructure.Entities;
 
-namespace DoMeta.Api
+namespace DoMeta.Api.Models
 {
     public static class MappingExtensions
     {

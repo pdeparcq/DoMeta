@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DoMeta.Api.Models
+namespace DoMeta.Api.Models.Query
 {
     public class EntityModel
     {

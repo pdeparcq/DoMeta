@@ -3,7 +3,7 @@ using EnsureThat;
 using Kledex.Commands;
 using Kledex.Domain;
 
-namespace DoMeta.Application.Commands
+namespace DoMeta.Application.Commands.Handlers
 {
     public class AddRelationToEntityHandler : ICommandHandlerAsync<AddRelationToEntity>
     {

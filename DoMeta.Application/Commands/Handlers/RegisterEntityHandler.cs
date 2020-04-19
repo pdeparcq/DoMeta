@@ -2,7 +2,7 @@
 using DoMeta.Domain;
 using Kledex.Commands;
 
-namespace DoMeta.Application.Commands
+namespace DoMeta.Application.Commands.Handlers
 {
     public class RegisterEntityHandler : ICommandHandlerAsync<RegisterEntity>
     {

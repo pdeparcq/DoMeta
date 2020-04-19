@@ -6,7 +6,7 @@ using EnsureThat;
 using Kledex.Queries;
 using Microsoft.EntityFrameworkCore;
 
-namespace DoMeta.Application.Queries
+namespace DoMeta.Application.Queries.Handlers
 {
     public class GetEntitiesHandler : IQueryHandlerAsync<GetEntities, IQueryable<Entity>>
     {

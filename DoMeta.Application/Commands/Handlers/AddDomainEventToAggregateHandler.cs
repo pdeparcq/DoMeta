@@ -3,24 +3,24 @@ using EnsureThat;
 using Kledex.Commands;
 using Kledex.Domain;
 
-namespace DoMeta.Application.Commands
+namespace DoMeta.Application.Commands.Handlers
 {
-    public class AddPropertyToDomainEventHandler : ICommandHandlerAsync<AddPropertyToDomainEvent>
+    public class AddDomainEventToAggregateHandler : ICommandHandlerAsync<AddDomainEventToAggregate>
     {
         private readonly IRepository<Domain.Entity> _entityRepository;
 
-        public AddPropertyToDomainEventHandler(IRepository<Domain.Entity> entityRepository)
+        public AddDomainEventToAggregateHandler(IRepository<Domain.Entity> entityRepository)
         {
             Ensure.That(entityRepository).IsNotNull();
 
             _entityRepository = entityRepository;
         }
 
-        public async Task<CommandResponse> HandleAsync(AddPropertyToDomainEvent command)
+        public async Task<CommandResponse> HandleAsync(AddDomainEventToAggregate command)
         {
             var entity = _entityRepository.GetById(command.AggregateRootId);
 
-            entity.AddPropertyToDomainEvent(command.DomainEventName, command.Property);
+            entity.AddDomainEvent(command.Name);
 
             return await Task.FromResult(new CommandResponse
             {
