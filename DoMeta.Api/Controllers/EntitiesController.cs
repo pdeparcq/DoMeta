@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DoMeta.Api.Controllers
 {
+    [Route("api/bc/{boundedContextId}/entities")]
     public class EntitiesController : Controller
     {
         private readonly IDispatcher _dispatcher;
@@ -22,11 +23,11 @@ namespace DoMeta.Api.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task Register([FromBody] RegisterEntityModel model)
+        public async Task Register([FromRoute] Guid boundedContextId, [FromBody] RegisterEntityModel model)
         {
             await _dispatcher.SendAsync(new RegisterEntity
             {
-                BoundedContextId = model.BoundedContextId,
+                BoundedContextId = boundedContextId,
                 Name = model.Name
             });
         }
@@ -57,7 +58,7 @@ namespace DoMeta.Api.Controllers
         }
 
         [HttpGet]
-        [Route("{boundedContextId}")]
+        [Route("")]
         public async Task<IEnumerable<EntityModel>> GetAll([FromRoute] Guid boundedContextId)
         {
             var entities = await _dispatcher.GetResultAsync(new GetEntities
@@ -65,34 +66,9 @@ namespace DoMeta.Api.Controllers
                 BoundedContextId = boundedContextId
             });
 
-            return entities.Select(e => new EntityModel
-            {
-                BoundedContextId = e.BoundedContextId,
-                Id = e.MetaTypeId,
-                Name = e.Name,
-                IdentityPropertyName = e.Identity.Name,
-                Properties = e.Properties.Select(p => new PropertyModel
-                {
-                    Name = p.Name,
-                    SystemType = p.SystemType,
-                    MetaType = p.MetaType != null ? new MetaTypInfoModel
-                    {
-                        Id = p.MetaType.MetaTypeId,
-                        Name = p.MetaType.Name
-                    } : null
-                }).ToList(),
-                Relations = e.Relations.Select(r => new EntityRelationModel()
-                {
-                    Name = r.Name,
-                    MetaType = new MetaTypInfoModel
-                    {
-                        Id = r.MetaType.MetaTypeId,
-                        Name = r.MetaType.Name
-                    },
-                    Minimum = r.Minimum,
-                    Maximum = r.Maximum
-                }).ToList()
-            });
+            return entities.Select(e => e.ToEntityModel());
         }
+
+        
     }
 }
