@@ -67,15 +67,15 @@ namespace DoMeta.Domain
             return _domainEvents.Single(de => de.Name == name);
         }
 
-        public void AddPropertyToDomainEvent(Guid domainEventId, Property property)
+        public void AddPropertyToDomainEvent(string domainEventName, Property property)
         {
-            Ensure.That(domainEventId).IsNotDefault();
+            Ensure.That(domainEventName).IsNotNullOrWhiteSpace();
             Ensure.That(property).IsNotNull();
 
             AddAndApplyEvent(new AggregateDomainEventPropertyAdded
             {
                 AggregateRootId = Id,
-                DomainEventId = domainEventId,
+                DomainEventName = domainEventName,
                 Property = property
             });
         }
@@ -95,7 +95,7 @@ namespace DoMeta.Domain
 
         public void Apply(AggregateDomainEventPropertyAdded @event)
         {
-            var domainEvent = _domainEvents.Single(de => de.Id == @event.DomainEventId);
+            var domainEvent = GetDomainEvent(@event.DomainEventName);
 
             domainEvent.AddProperty(@event.Property);
         }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DoMeta.Api.Models;
 using DoMeta.Application.Commands;
 using DoMeta.Application.Queries;
+using DoMeta.Domain.ValueObjects;
 using Kledex;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,6 +41,18 @@ namespace DoMeta.Api.Controllers
             {
                 AggregateRootId = id,
                 Name = model.Name
+            });
+        }
+
+        [HttpPost]
+        [Route("{id}/events/{name}/properties")]
+        public async Task AddPropertyToDomainEvent([FromRoute] Guid id, [FromRoute] string name, [FromBody] AddPropertyToDomainEventModel model)
+        {
+            await _dispatcher.SendAsync(new AddPropertyToDomainEvent()
+            {
+                AggregateRootId = id,
+                DomainEventName = name,
+                Property = new Property(model.Name, typeof(string))
             });
         }
 

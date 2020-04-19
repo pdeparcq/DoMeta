@@ -85,7 +85,7 @@ namespace DoMeta.Test.Domain
             var entity = new Entity(Guid.NewGuid(), "Touchpoint");
 
             entity.AddDomainEvent("TouchpointCreated");
-            entity.AddPropertyToDomainEvent(entity.GetDomainEvent("TouchpointCreated").Id, new Property("Name", typeof(string)));
+            entity.AddPropertyToDomainEvent(entity.GetDomainEvent("TouchpointCreated").Name, new Property("Name", typeof(string)));
 
             Assert.IsNotEmpty(entity.DomainEvents);
             Assert.IsNotEmpty(entity.DomainEvents.First().Properties);

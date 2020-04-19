@@ -29,16 +29,23 @@ namespace DoMeta.Test.Application
                 Name = "TouchpointSettingsChanged"
             });
 
-            var participant = await Dispatcher.SendAsync<Entity>(new RegisterEntity
+            touchpoint = await Dispatcher.SendAsync<Entity>(new AddPropertyToDomainEvent()
             {
-                BoundedContextId = touchpoint.BoundedContextId,
-                Name = "Participant"
+                AggregateRootId = touchpoint.Id,
+                DomainEventName = "TouchpointSettingsChanged",
+                Property = new Property("Setting", typeof(string))
             });
 
             touchpoint = await Dispatcher.SendAsync<Entity>(new AddPropertyToEntity()
             {
                 AggregateRootId = touchpoint.Id,
                 Property = new Property("Name", typeof(string))
+            });
+
+            var participant = await Dispatcher.SendAsync<Entity>(new RegisterEntity
+            {
+                BoundedContextId = touchpoint.BoundedContextId,
+                Name = "Participant"
             });
 
             touchpoint = await Dispatcher.SendAsync<Entity>(new AddRelationToEntity()
@@ -66,6 +73,7 @@ namespace DoMeta.Test.Application
             Assert.IsNotEmpty(touchpointData.DomainEvents);
             Assert.AreEqual("TouchpointCreated", touchpointData.DomainEvents.First().Name);
             Assert.AreEqual("TouchpointSettingsChanged", touchpointData.DomainEvents.Last().Name);
+            Assert.AreEqual("Setting", touchpointData.DomainEvents.Last().Properties.First().Name);
             Assert.IsNotEmpty(touchpointData.Properties);
             Assert.AreEqual("Name", touchpointData.Properties.Last().Name);
             Assert.IsNotEmpty(touchpointData.Relations);
