@@ -10,6 +10,11 @@ namespace DoMeta.Application.Commands
         {
             var entity = new Entity(command.BoundedContextId, command.Name, command.Identity);
 
+            if (command.AggregateDomainEventName != null)
+            {
+                entity.AddDomainEvent(command.AggregateDomainEventName);
+            }
+
             return Task.FromResult(new CommandResponse
             {
                 Events = entity.Events,

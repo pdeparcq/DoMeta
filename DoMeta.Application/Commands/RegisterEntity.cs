@@ -9,5 +9,6 @@ namespace DoMeta.Application.Commands
         public Guid BoundedContextId { get; set; }
         public string Name { get; set; }
         public Property Identity { get; set; }
+        public string AggregateDomainEventName { get; set; }
     }
 }

@@ -40,7 +40,7 @@ namespace DoMeta.Domain
             if(DomainEvents.Any(de => de.Name == name))
                 throw new ArgumentException("Domain event with same name already exists for entity", nameof(name));
 
-            AddAndApplyEvent(new EntityDomainEventAdded
+            AddAndApplyEvent(new AggregateDomainEventAdded
             {
                 AggregateRootId = Id,
                 Name = name
@@ -72,7 +72,7 @@ namespace DoMeta.Domain
             Ensure.That(domainEventId).IsNotDefault();
             Ensure.That(property).IsNotNull();
 
-            AddAndApplyEvent(new EntityDomainEventPropertyAdded
+            AddAndApplyEvent(new AggregateDomainEventPropertyAdded
             {
                 AggregateRootId = Id,
                 DomainEventId = domainEventId,
@@ -88,12 +88,12 @@ namespace DoMeta.Domain
             Identity = @event.Identity;
         }
 
-        public void Apply(EntityDomainEventAdded @event)
+        public void Apply(AggregateDomainEventAdded @event)
         {
             _domainEvents.Add(new DomainEvent(@event.Name));
         }
 
-        public void Apply(EntityDomainEventPropertyAdded @event)
+        public void Apply(AggregateDomainEventPropertyAdded @event)
         {
             var domainEvent = _domainEvents.Single(de => de.Id == @event.DomainEventId);
 

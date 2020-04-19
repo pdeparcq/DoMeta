@@ -13,13 +13,14 @@ namespace DoMeta.Test.Application
     public class EntityServiceTests : IntegrationTestBase
     {
         [Test]
-        public async Task CanRegisterEntity()
+        public async Task CanRegisterAggregate()
         {
             // Commands
             var touchpoint = await Dispatcher.SendAsync<Entity>(new RegisterEntity
             {
                 BoundedContextId = Guid.NewGuid(),
-                Name = "Touchpoint"
+                Name = "Touchpoint",
+                AggregateDomainEventName = "TouchpointCreated"
             });
 
             var participant = await Dispatcher.SendAsync<Entity>(new RegisterEntity
@@ -60,6 +61,8 @@ namespace DoMeta.Test.Application
             Assert.AreEqual("Name", touchpointData.Properties.Last().Name);
             Assert.IsNotEmpty(touchpointData.Relations);
             Assert.AreEqual("Participants", touchpointData.Relations.First().Name);
+            Assert.IsNotEmpty(touchpointData.DomainEvents);
+            Assert.AreEqual("TouchpointCreated", touchpointData.DomainEvents.First().Name);
         }
     }
 }

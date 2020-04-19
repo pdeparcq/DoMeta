@@ -15,7 +15,17 @@ namespace DoMeta.Api
                 Name = e.Name,
                 IdentityPropertyName = e.Identity.Name,
                 Properties = e.Properties.Select(ToPropertyModel).ToList(),
-                Relations = e.Relations.Select(ToEntityRelationModel).ToList()
+                Relations = e.Relations.Select(ToEntityRelationModel).ToList(),
+                DomainEvents = e.DomainEvents.Select(ToDomainEventModel).ToList()
+            };
+        }
+
+        public static DomainEventModel ToDomainEventModel(this DomainEvent de)
+        {
+            return new DomainEventModel
+            {
+                Name = de.Name,
+                Properties = de.Properties.Select(ToPropertyModel).ToList()
             };
         }
 
@@ -35,6 +45,20 @@ namespace DoMeta.Api
         }
 
         public static PropertyModel ToPropertyModel(this EntityProperty p)
+        {
+            return new PropertyModel
+            {
+                Name = p.Name,
+                SystemType = p.SystemType,
+                MetaType = p.MetaType != null ? new MetaTypInfoModel
+                {
+                    Id = p.MetaType.MetaTypeId,
+                    Name = p.MetaType.Name
+                } : null
+            };
+        }
+
+        public static PropertyModel ToPropertyModel(this DomainEventProperty p)
         {
             return new PropertyModel
             {

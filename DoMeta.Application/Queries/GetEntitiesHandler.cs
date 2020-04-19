@@ -23,6 +23,7 @@ namespace DoMeta.Application.Queries
         {
             return await Task.FromResult(_db.Entities
                 .Include(e => e.Properties).ThenInclude(p => p.MetaType)
+                .Include(e => e.DomainEvents).ThenInclude(de => de.Properties).ThenInclude(p => p.MetaType)
                 .Include(e => e.Identity).ThenInclude(p => p.MetaType)
                 .Include(e => e.Relations).ThenInclude(r => r.MetaType)
                 .Where(e => e.BoundedContextId == query.BoundedContextId)

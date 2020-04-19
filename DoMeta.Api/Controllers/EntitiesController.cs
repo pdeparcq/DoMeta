@@ -66,7 +66,7 @@ namespace DoMeta.Api.Controllers
                 BoundedContextId = boundedContextId
             });
 
-            return entities.Select(e => e.ToEntityModel());
+            return entities.Where(e => !e.DomainEvents.Any()).Select(e => e.ToEntityModel());
         }
 
         
