@@ -10,9 +10,11 @@ namespace DoMeta.Infrastructure
         }
 
         public DbSet<MetaType> MetaTypes { get; set; }
-        public DbSet<Entity> Entities { get; set; }
         public DbSet<ValueObject> ValueObjects { get; set; }
-        public DbSet<Property> Properties { get; set; }
+        public DbSet<Entity> Entities { get; set; }
+        public DbSet<DomainEvent> DomainEvents { get; set; }
+        public DbSet<DomainEventProperty> DomainEventProperties { get; set; }
+        public DbSet<EntityProperty> EntityProperties { get; set; }
         public DbSet<EntityRelation> EntityRelations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,10 +26,35 @@ namespace DoMeta.Infrastructure
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
 
-            modelBuilder.Entity<Property>()
+            modelBuilder.Entity<Entity>()
+                .HasMany(e => e.DomainEvents)
+                .WithOne(p => p.Parent)
+                .HasForeignKey(p => p.ParentId)
+                .OnDelete(DeleteBehavior.NoAction)
+                .IsRequired();
+
+            modelBuilder.Entity<DomainEvent>()
+                .HasKey(de => new {de.ParentId, de.Name});
+
+            modelBuilder.Entity<DomainEvent>()
+                .HasMany(de => de.Properties)
+                .WithOne(p => p.DomainEvent)
+                .HasForeignKey(p => new { p.DomainEventEntityId, p.DomainEventName })
+                .OnDelete(DeleteBehavior.NoAction)
+                .IsRequired();
+
+            modelBuilder.Entity<DomainEventProperty>()
+                .HasKey(p => new { p.DomainEventEntityId, p.DomainEventName, p.Name });
+
+            modelBuilder.Entity<DomainEventProperty>()
+                .HasOne(p => p.MetaType)
+                .WithMany()
+                .HasForeignKey(p => p.MetaTypeId);
+
+            modelBuilder.Entity<EntityProperty>()
                 .HasKey(p => new {p.ParentId, p.Name});
 
-            modelBuilder.Entity<Property>()
+            modelBuilder.Entity<EntityProperty>()
                 .HasOne(p => p.MetaType)
                 .WithMany()
                 .HasForeignKey(p => p.MetaTypeId);

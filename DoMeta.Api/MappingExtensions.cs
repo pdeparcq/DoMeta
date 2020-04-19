@@ -34,7 +34,7 @@ namespace DoMeta.Api
             };
         }
 
-        public static PropertyModel ToPropertyModel(this Property p)
+        public static PropertyModel ToPropertyModel(this EntityProperty p)
         {
             return new PropertyModel
             {

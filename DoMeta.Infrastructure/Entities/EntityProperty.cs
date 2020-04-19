@@ -2,7 +2,7 @@
 
 namespace DoMeta.Infrastructure.Entities
 {
-    public class Property
+    public class EntityProperty
     {
         public virtual MetaType Parent { get; set; }
         public Guid ParentId { get; set; }

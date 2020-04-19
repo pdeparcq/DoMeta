@@ -2,9 +2,9 @@
 using DoMeta.Domain.Events;
 using DoMeta.Domain.ValueObjects;
 using DoMeta.Infrastructure;
+using DoMeta.Infrastructure.Entities;
 using EnsureThat;
 using Kledex.Events;
-using Property = DoMeta.Infrastructure.Entities.Property;
 
 namespace DoMeta.Application.EventHandlers
 {
@@ -21,7 +21,7 @@ namespace DoMeta.Application.EventHandlers
 
         public async Task HandleAsync(MetaTypePropertyAdded @event)
         {
-            _db.Properties.Add(new Property
+            _db.EntityProperties.Add(new EntityProperty
             {
                 ParentId = @event.AggregateRootId,
                 Name = @event.Property.Name,
