@@ -35,13 +35,11 @@ namespace DoMeta.Application.EventHandlers
                 SystemType = @event.Identity.Type.SystemType?.FullName
             }).Entity;
 
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
 
             entity.Identity = property;
 
-            _db.SaveChanges();
-
-            await Task.CompletedTask;
+            await _db.SaveChangesAsync();
         }
     }
 }

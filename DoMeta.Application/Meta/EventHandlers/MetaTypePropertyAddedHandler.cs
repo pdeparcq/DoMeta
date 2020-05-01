@@ -29,9 +29,7 @@ namespace DoMeta.Application.EventHandlers
                 SystemType = @event.Property.Type.SystemType?.FullName
             });
 
-            _db.SaveChanges();
-
-            await Task.CompletedTask;
+            await _db.SaveChangesAsync();
         }
     }
 }

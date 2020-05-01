@@ -1,6 +1,8 @@
 ﻿using System;
 using DoMeta.Application.Commands;
+using DoMeta.Domain.CodeGen.Services;
 using DoMeta.Infrastructure;
+using DoMeta.Infrastructure.CodeGen;
 using Kledex;
 using Kledex.Extensions;
 using Kledex.Store.EF.InMemory.Extensions;
@@ -21,6 +23,9 @@ namespace DoMeta.Test.Application
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddKledex(typeof(RegisterEntity)).AddInMemoryStore();
             serviceCollection.AddDbContext<MetaDbContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+            serviceCollection.AddDbContext<CodeGenDbContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+            serviceCollection.AddSingleton<CodeGenerator>();
+            serviceCollection.AddSingleton<ITemplateEngine>(new HandlebarsTemplateEngine());
             ServiceProvider = serviceCollection.BuildServiceProvider();
             Dispatcher = ServiceProvider.GetService<IDispatcher>();
         }

@@ -29,9 +29,7 @@ namespace DoMeta.Application.EventHandlers
                 Maximum = @event.Maximum
             });
 
-            _db.SaveChanges();
-
-            await Task.CompletedTask;
+            await _db.SaveChangesAsync();
         }
     }
 }

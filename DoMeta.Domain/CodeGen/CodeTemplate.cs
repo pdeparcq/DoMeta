@@ -15,8 +15,9 @@ namespace DoMeta.Domain.CodeGen
             AddAndApplyEvent(new CodeTemplateCreated
             {
                 AggregateRootId = Id,
-                Name = name
-            });
+                Name = name,
+                Value = "Hello {{name}}!"
+        });
         }
 
         public string Name { get; private set; }
@@ -34,13 +35,14 @@ namespace DoMeta.Domain.CodeGen
 
         public void Apply(CodeTemplateCreated @event)
         {
-            Id = @event.Id;
+            Id = @event.AggregateRootId;
             Name = @event.Name;
-            Value = "Hello {{name}}!";
+            Value = @event.Value;
         }
 
         public void Apply(CodeTemplateUpdated @event)
         {
+            Name = @event.Name;
             Value = @event.Value;
         }
     }

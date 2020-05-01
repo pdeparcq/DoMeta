@@ -26,9 +26,7 @@ namespace DoMeta.Application.EventHandlers
                 Name = @event.Name
             });
 
-            _db.SaveChanges();
-
-            await Task.CompletedTask;
+            await _db.SaveChangesAsync();
         }
     }
 }
