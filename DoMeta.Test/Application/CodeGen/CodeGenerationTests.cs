@@ -33,7 +33,7 @@ namespace DoMeta.Test.Application.CodeGen
 
             var code = await generator.Generate(template.Id, touchpoint);
 
-            Assert.IsNotNull(code);
+            Assert.AreEqual("Hello Touchpoint!", code);
         }
     }
 }
