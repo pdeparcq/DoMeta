@@ -22,7 +22,7 @@ namespace DoMeta.Domain.CodeGen.Services
         public async Task<string> Generate(Guid templateId, object data)
         {
             var template = await _templateRepository.GetByIdAsync(templateId);
-            var generate = _templateEngine.Compile(template.Value);
+            var generate = _templateEngine.Compile(template.Value ?? "");
             return generate(data);
         }
     }

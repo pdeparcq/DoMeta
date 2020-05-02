@@ -1,12 +1,12 @@
 using DoMeta.Application.Meta.Commands;
-using DoMeta.Infrastructure;
+using DoMeta.Domain.CodeGen.Services;
+using DoMeta.Infrastructure.CodeGen;
 using DoMeta.Infrastructure.Meta;
 using Kledex.Extensions;
 using Kledex.Store.EF.Extensions;
 using Kledex.Store.EF.SqlServer.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -39,17 +39,23 @@ namespace DoMeta.Api
             services.AddDbContext<MetaDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MetaDb")));
 
+            services.AddDbContext<CodeGenDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("CodeGenDb")));
+
+            services.AddSingleton<CodeGenerator>();
+            services.AddSingleton<ITemplateEngine>(new HandlebarsTemplateEngine());
+
             // Configure Kledex and db context for commands
             services.AddKledex(typeof(RegisterEntity)).AddSqlServerStore(options =>
             {
-                options.ConnectionString = Configuration.GetConnectionString("MetaDomainDb");
+                options.ConnectionString = Configuration.GetConnectionString("DomainDb");
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MetaDbContext metaDbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MetaDbContext metaDbContext, CodeGenDbContext codeGenDbContext)
         {
             if (env.IsDevelopment())
             {
@@ -65,6 +71,7 @@ namespace DoMeta.Api
 
             // Ensure that query db is created
             metaDbContext.Database.EnsureCreated();
+            codeGenDbContext.Database.EnsureCreated();
 
             // Use Kledex and ensure that domain db is created
             app.UseKledex().EnsureDomainDbCreated();
