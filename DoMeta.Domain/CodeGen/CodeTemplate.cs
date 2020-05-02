@@ -8,19 +8,21 @@ namespace DoMeta.Domain.CodeGen
     {
         public CodeTemplate() { }
 
-        public CodeTemplate(string name)
+        public CodeTemplate(string name, string sourceType)
         {
             Ensure.That(name).IsNotEmptyOrWhiteSpace();
+            Ensure.That(sourceType).IsNotEmptyOrWhiteSpace();
 
             AddAndApplyEvent(new CodeTemplateCreated
             {
                 AggregateRootId = Id,
                 Name = name,
-                Value = "Hello {{name}}!"
+                SourceType = sourceType
         });
         }
 
         public string Name { get; private set; }
+        public string SourceType { get; private set; }
         public string Value { get; private set; }
 
         public void Update(string value)
@@ -29,6 +31,7 @@ namespace DoMeta.Domain.CodeGen
 
             AddAndApplyEvent(new CodeTemplateUpdated()
             {
+                AggregateRootId = Id,
                 Value = value
             });
         }
@@ -37,12 +40,11 @@ namespace DoMeta.Domain.CodeGen
         {
             Id = @event.AggregateRootId;
             Name = @event.Name;
-            Value = @event.Value;
+            SourceType = @event.SourceType;
         }
 
         public void Apply(CodeTemplateUpdated @event)
         {
-            Name = @event.Name;
             Value = @event.Value;
         }
     }

@@ -22,7 +22,6 @@ namespace DoMeta.Application.CodeGen.EventHandlers
         {
             var template = _db.CodeTemplates.Single(t => t.Id == @event.AggregateRootId);
 
-            template.Name = @event.Name;
             template.Value = @event.Value;
 
             _db.Update(template);

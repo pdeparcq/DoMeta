@@ -6,5 +6,6 @@ namespace DoMeta.Application.CodeGen.Commands
     public class CreateCodeTemplate : DomainCommand<CodeTemplate>
     {
         public string Name { get; set; }
+        public string SourceType { get; set; }
     }
 }

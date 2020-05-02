@@ -1,8 +1,6 @@
-﻿using DoMeta.Domain.CodeGen.Services;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using DoMeta.Domain.CodeGen;
 using DoMeta.Application.CodeGen.Commands;
 using DoMeta.Application.Meta.Commands;
@@ -20,7 +18,14 @@ namespace DoMeta.Test.Application.CodeGen
         {
             var template = await Dispatcher.SendAsync<CodeTemplate>(new CreateCodeTemplate
             {
-                Name = "Aggregate"
+                Name = "DomainAggregateRoot",
+                SourceType = "Entity"
+            });
+
+            template = await Dispatcher.SendAsync<CodeTemplate>(new UpdateCodeTemplate
+            {
+                AggregateRootId = template.Id,
+                Value = "Hello {{Name}}!"
             });
 
             var touchpoint = await Dispatcher.SendAsync<Entity>(new RegisterEntity
@@ -30,9 +35,12 @@ namespace DoMeta.Test.Application.CodeGen
                 AggregateDomainEventName = "TouchpointCreated"
             });
 
-            var generator = ServiceProvider.GetService<CodeGenerator>();
-
-            var code = await generator.Generate(template.Id, touchpoint);
+            var code = await Dispatcher.SendAsync<string>(new GenerateCodeForEntity
+            {
+                BoundedContextId = touchpoint.BoundedContextId,
+                EntityId = touchpoint.Id,
+                CodeTemplateId = template.Id
+            });
 
             Assert.AreEqual("Hello Touchpoint!", code);
         }

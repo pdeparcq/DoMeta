@@ -19,7 +19,7 @@ namespace DoMeta.Test.Domain.CodeGen
             var repository = new Mock<IRepository<CodeTemplate>>();
             
             // Create template and assign it a value
-            var template = new CodeTemplate("WelcomeTemplate");
+            var template = new CodeTemplate("WelcomeTemplate", "Dummy");
             template.Update(@"Welcome {{name}}!");
 
             repository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>())).Returns(Task.FromResult(template));

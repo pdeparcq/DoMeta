@@ -25,7 +25,7 @@ namespace DoMeta.Application.CodeGen.EventHandlers
             {
                 Id = @event.AggregateRootId,
                 Name = @event.Name,
-                Value = @event.Value
+                SourceType = @event.SourceType
             });
 
             await _db.SaveChangesAsync();
