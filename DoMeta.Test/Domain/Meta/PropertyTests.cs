@@ -1,8 +1,8 @@
 ﻿using System;
-using DoMeta.Domain.ValueObjects;
+using DoMeta.Domain.Meta.ValueObjects;
 using NUnit.Framework;
 
-namespace DoMeta.Test.Domain
+namespace DoMeta.Test.Domain.Meta
 {
     [TestFixture]
     public class PropertyTests

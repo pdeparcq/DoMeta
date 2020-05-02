@@ -1,11 +1,12 @@
-﻿using DoMeta.Application.Commands;
-using DoMeta.Domain.CodeGen.Services;
+﻿using DoMeta.Domain.CodeGen.Services;
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using DoMeta.Domain.CodeGen;
 using DoMeta.Application.CodeGen.Commands;
+using DoMeta.Application.Meta.Commands;
+using DoMeta.Domain.Meta;
 
 namespace DoMeta.Test.Application.CodeGen
 {
@@ -22,7 +23,7 @@ namespace DoMeta.Test.Application.CodeGen
                 Name = "Aggregate"
             });
 
-            var touchpoint = await Dispatcher.SendAsync<DoMeta.Domain.Entity>(new RegisterEntity
+            var touchpoint = await Dispatcher.SendAsync<Entity>(new RegisterEntity
             {
                 BoundedContextId = Guid.NewGuid(),
                 Name = "Touchpoint",

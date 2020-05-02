@@ -1,4 +1,4 @@
-﻿namespace DoMeta.Domain.Events
+﻿namespace DoMeta.Domain.Meta.Events
 {
     public class AggregateDomainEventAdded : Kledex.Domain.DomainEvent
     {

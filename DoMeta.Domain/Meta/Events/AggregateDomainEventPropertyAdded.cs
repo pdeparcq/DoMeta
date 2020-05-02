@@ -1,7 +1,6 @@
-﻿using System;
-using DoMeta.Domain.ValueObjects;
+﻿using DoMeta.Domain.Meta.ValueObjects;
 
-namespace DoMeta.Domain.Events
+namespace DoMeta.Domain.Meta.Events
 {
     public class AggregateDomainEventPropertyAdded : Kledex.Domain.DomainEvent
     {

@@ -1,7 +1,7 @@
 ﻿using System;
-using DoMeta.Domain.Events;
+using DoMeta.Domain.Meta.Events;
 
-namespace DoMeta.Domain
+namespace DoMeta.Domain.Meta
 {
     public class ValueObject : MetaType
     {

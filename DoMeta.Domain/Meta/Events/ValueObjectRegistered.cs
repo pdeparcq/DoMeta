@@ -1,7 +1,7 @@
 ﻿using System;
 using Kledex.Domain;
 
-namespace DoMeta.Domain.Events
+namespace DoMeta.Domain.Meta.Events
 {
     public class ValueObjectRegistered : DomainEvent
     {

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using DoMeta.Application.Commands;
-using DoMeta.Application.Queries;
-using DoMeta.Domain;
-using DoMeta.Domain.ValueObjects;
+using DoMeta.Application.Meta.Commands;
+using DoMeta.Application.Meta.Queries;
+using DoMeta.Domain.Meta;
+using DoMeta.Domain.Meta.ValueObjects;
 using NUnit.Framework;
 
-namespace DoMeta.Test.Application
+namespace DoMeta.Test.Application.Meta
 {
     [TestFixture]
     public class ValueObjectServiceTests : IntegrationTestBase

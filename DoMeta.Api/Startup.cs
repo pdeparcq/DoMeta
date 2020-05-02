@@ -1,5 +1,6 @@
-using DoMeta.Application.Commands;
+using DoMeta.Application.Meta.Commands;
 using DoMeta.Infrastructure;
+using DoMeta.Infrastructure.Meta;
 using Kledex.Extensions;
 using Kledex.Store.EF.Extensions;
 using Kledex.Store.EF.SqlServer.Extensions;

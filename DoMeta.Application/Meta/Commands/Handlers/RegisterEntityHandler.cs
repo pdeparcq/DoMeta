@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using DoMeta.Domain;
+using DoMeta.Domain.Meta;
 using Kledex.Commands;
 
-namespace DoMeta.Application.Commands.Handlers
+namespace DoMeta.Application.Meta.Commands.Handlers
 {
     public class RegisterEntityHandler : ICommandHandlerAsync<RegisterEntity>
     {

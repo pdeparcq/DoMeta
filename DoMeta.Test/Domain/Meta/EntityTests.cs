@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using DoMeta.Domain;
-using DoMeta.Domain.ValueObjects;
+using DoMeta.Domain.Meta;
+using DoMeta.Domain.Meta.ValueObjects;
 using NUnit.Framework;
 
-namespace DoMeta.Test.Domain
+namespace DoMeta.Test.Domain.Meta
 {
     [TestFixture]
     public class EntityTests

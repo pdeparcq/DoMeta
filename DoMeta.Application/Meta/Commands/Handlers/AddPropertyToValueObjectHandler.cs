@@ -2,14 +2,15 @@
 using EnsureThat;
 using Kledex.Commands;
 using Kledex.Domain;
+using ValueObject = DoMeta.Domain.Meta.ValueObject;
 
-namespace DoMeta.Application.Commands.Handlers
+namespace DoMeta.Application.Meta.Commands.Handlers
 {
     public class AddPropertyToValueObjectHandler : ICommandHandlerAsync<AddPropertyToValueObject>
     {
-        private readonly IRepository<Domain.ValueObject> _valueObjectRepository;
+        private readonly IRepository<ValueObject> _valueObjectRepository;
 
-        public AddPropertyToValueObjectHandler(IRepository<Domain.ValueObject> valueObjectRepository)
+        public AddPropertyToValueObjectHandler(IRepository<ValueObject> valueObjectRepository)
         {
             Ensure.That(valueObjectRepository).IsNotNull();
 

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using DoMeta.Api.Models.Query;
-using DoMeta.Infrastructure.Entities;
+using DoMeta.Infrastructure.Meta.Entities;
 
 namespace DoMeta.Api.Models
 {

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DoMeta.Domain.Entities;
-using DoMeta.Domain.Events;
-using DoMeta.Domain.ValueObjects;
+using DoMeta.Domain.Meta.Entities;
+using DoMeta.Domain.Meta.Events;
+using DoMeta.Domain.Meta.ValueObjects;
 using EnsureThat;
-using DomainEvent = DoMeta.Domain.Entities.DomainEvent;
+using DomainEvent = DoMeta.Domain.Meta.Entities.DomainEvent;
 
-namespace DoMeta.Domain
+namespace DoMeta.Domain.Meta
 {
     public class Entity : MetaType
     {

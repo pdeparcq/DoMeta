@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DoMeta.Domain.Events
+namespace DoMeta.Domain.Meta.Events
 {
     public class EntityRelationAdded : Kledex.Domain.DomainEvent
     {

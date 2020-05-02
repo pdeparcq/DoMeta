@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using DoMeta.Infrastructure.Entities;
+using DoMeta.Infrastructure.Meta.Entities;
 using Kledex.Queries;
 
-namespace DoMeta.Application.Queries
+namespace DoMeta.Application.Meta.Queries
 {
     public class GetEntities : IQuery<IQueryable<Entity>>
     {

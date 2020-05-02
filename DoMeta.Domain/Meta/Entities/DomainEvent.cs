@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DoMeta.Domain.ValueObjects;
+using DoMeta.Domain.Meta.ValueObjects;
 using EnsureThat;
 
-namespace DoMeta.Domain.Entities
+namespace DoMeta.Domain.Meta.Entities
 {
     public class DomainEvent : Kledex.Domain.Entity
     {

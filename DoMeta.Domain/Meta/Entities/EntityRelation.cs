@@ -1,7 +1,7 @@
 ﻿using System;
 using EnsureThat;
 
-namespace DoMeta.Domain.Entities
+namespace DoMeta.Domain.Meta.Entities
 {
     public class EntityRelation : Kledex.Domain.Entity
     {

@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using DoMeta.Infrastructure;
-using DoMeta.Infrastructure.Entities;
+using DoMeta.Infrastructure.Meta;
+using DoMeta.Infrastructure.Meta.Entities;
 using EnsureThat;
 using Kledex.Queries;
 using Microsoft.EntityFrameworkCore;
 
-namespace DoMeta.Application.Queries.Handlers
+namespace DoMeta.Application.Meta.Queries.Handlers
 {
     public class GetValueObjectsHandler : IQueryHandlerAsync<GetValueObjects, IQueryable<ValueObject>>
     {

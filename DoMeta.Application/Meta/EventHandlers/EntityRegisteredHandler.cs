@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using DoMeta.Domain.Events;
-using DoMeta.Infrastructure;
-using DoMeta.Infrastructure.Entities;
+using DoMeta.Domain.Meta.Events;
+using DoMeta.Infrastructure.Meta;
+using DoMeta.Infrastructure.Meta.Entities;
 using EnsureThat;
 using Kledex.Events;
 
-namespace DoMeta.Application.EventHandlers
+namespace DoMeta.Application.Meta.EventHandlers
 {
     public class EntityRegisteredHandler : IEventHandlerAsync<EntityRegistered>
     {

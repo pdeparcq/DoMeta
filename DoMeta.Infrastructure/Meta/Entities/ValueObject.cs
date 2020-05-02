@@ -1,4 +1,4 @@
-﻿namespace DoMeta.Infrastructure.Entities
+﻿namespace DoMeta.Infrastructure.Meta.Entities
 {
     public class ValueObject : MetaType
     {

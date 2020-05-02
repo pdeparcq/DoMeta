@@ -1,7 +1,7 @@
-﻿using DoMeta.Infrastructure.Entities;
+﻿using DoMeta.Infrastructure.Meta.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DoMeta.Infrastructure
+namespace DoMeta.Infrastructure.Meta
 {
     public class MetaDbContext : DbContext
     {

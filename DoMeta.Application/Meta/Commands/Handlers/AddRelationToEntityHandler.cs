@@ -2,14 +2,15 @@
 using EnsureThat;
 using Kledex.Commands;
 using Kledex.Domain;
+using Entity = DoMeta.Domain.Meta.Entity;
 
-namespace DoMeta.Application.Commands.Handlers
+namespace DoMeta.Application.Meta.Commands.Handlers
 {
     public class AddRelationToEntityHandler : ICommandHandlerAsync<AddRelationToEntity>
     {
-        private readonly IRepository<Domain.Entity> _entityRepository;
+        private readonly IRepository<Entity> _entityRepository;
 
-        public AddRelationToEntityHandler(IRepository<Domain.Entity> entityRepository)
+        public AddRelationToEntityHandler(IRepository<Entity> entityRepository)
         {
             Ensure.That(entityRepository).IsNotNull();
 

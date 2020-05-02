@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using EnsureThat;
 
-namespace DoMeta.Domain.ValueObjects
+namespace DoMeta.Domain.Meta.ValueObjects
 {
     public class PropertyType : Kledex.Domain.ValueObject
     {

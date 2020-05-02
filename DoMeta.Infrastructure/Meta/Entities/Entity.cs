@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DoMeta.Infrastructure.Entities
+namespace DoMeta.Infrastructure.Meta.Entities
 {
     public class Entity : MetaType
     {

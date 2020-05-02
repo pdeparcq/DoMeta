@@ -1,8 +1,9 @@
 ﻿using System;
-using DoMeta.Application.Commands;
+using DoMeta.Application.Meta.Commands;
 using DoMeta.Domain.CodeGen.Services;
 using DoMeta.Infrastructure;
 using DoMeta.Infrastructure.CodeGen;
+using DoMeta.Infrastructure.Meta;
 using Kledex;
 using Kledex.Extensions;
 using Kledex.Store.EF.InMemory.Extensions;

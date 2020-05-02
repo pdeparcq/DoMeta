@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DoMeta.Domain.Events;
-using DoMeta.Domain.ValueObjects;
+using DoMeta.Domain.Meta.Events;
+using DoMeta.Domain.Meta.ValueObjects;
 using EnsureThat;
 using Kledex.Domain;
 
-namespace DoMeta.Domain
+namespace DoMeta.Domain.Meta
 {
     public abstract class MetaType : AggregateRoot
     {
