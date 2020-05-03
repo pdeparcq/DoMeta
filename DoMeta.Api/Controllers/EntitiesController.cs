@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DoMeta.Api.Models;
 using DoMeta.Api.Models.Command;
 using DoMeta.Api.Models.Query;
+using DoMeta.Application.CodeGen.Commands;
 using DoMeta.Application.Meta.Commands;
 using DoMeta.Application.Meta.Queries;
 using DoMeta.Domain.Meta.ValueObjects;
@@ -71,6 +72,22 @@ namespace DoMeta.Api.Controllers
             return entities.Where(e => !e.DomainEvents.Any()).Select(e => e.ToEntityModel());
         }
 
-        
+
+        [HttpGet]
+        [Route("{id}/code/{templateId}")]
+        public async Task<GeneratedCodeModel> GenerateCode([FromRoute] Guid boundedContextId, [FromRoute] Guid id, [FromRoute] Guid templateId)
+        {
+            var result = await _dispatcher.SendAsync<string>(new GenerateCodeForEntity
+            {
+                BoundedContextId = boundedContextId,
+                EntityId = id,
+                CodeTemplateId = templateId
+            });
+
+            return new GeneratedCodeModel
+            {
+                Value = result
+            };
+        }
     }
 }
