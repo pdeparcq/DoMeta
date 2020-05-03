@@ -27,7 +27,7 @@ namespace DoMeta.Application.Meta.EventHandlers
                 Name = @event.Name
             }).Entity;
 
-            var property = _db.EntityProperties.Add(new EntityProperty
+            var property = _db.Properties.Add(new Property
             {
                 ParentId = @event.AggregateRootId,
                 Name = @event.Identity.Name,

@@ -20,7 +20,7 @@ namespace DoMeta.Application.Meta.EventHandlers
 
         public async Task HandleAsync(MetaTypePropertyAdded @event)
         {
-            _db.EntityProperties.Add(new EntityProperty
+            _db.Properties.Add(new Property
             {
                 ParentId = @event.AggregateRootId,
                 Name = @event.Property.Name,
