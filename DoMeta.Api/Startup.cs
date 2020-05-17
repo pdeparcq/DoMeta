@@ -52,6 +52,14 @@ namespace DoMeta.Api
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
+            services.AddCors(options => options.AddPolicy("Cors",
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,6 +87,8 @@ namespace DoMeta.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("Cors");
 
             app.UseAuthorization();
 
